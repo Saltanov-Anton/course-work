@@ -2,7 +2,7 @@ import static java.lang.Integer.MAX_VALUE;
 import static java.lang.Integer.MIN_VALUE;
 
 public class EmployeeBook {
-    private Employee[] employees = new Employee[10];
+    private final Employee[] employees = new Employee[10];
 
     public void showAllEmployees() {
         for (int i = 0; i < employees.length; i++) {
@@ -12,12 +12,11 @@ public class EmployeeBook {
         }
     }
 
-    public void addEmployee(String name, int department, int salary) {
-        Employee employee = new Employee(name, department, salary);
+    public void addEmployee(Employee employee) {
         for (int i = 0; i < employees.length; i++) {
             if (employees[i] == null) {
                 employees[i] = employee;
-                System.out.println("Работник '" + name + '\'' + " добавлен в общий список");
+                System.out.println("Работник '" + employee.getName() + '\'' + " добавлен в общий список");
                 break;
             }
         }
@@ -60,8 +59,10 @@ public class EmployeeBook {
                 employeeWithMinSalary = employees[i];
             }
         }
-        System.out.println("Минимальная зарплата у " + employeeWithMinSalary.getName()
-                + "-" + employeeWithMinSalary.getSalary());
+        if (employeeWithMinSalary != null) {
+            System.out.println("Минимальная зарплата у " + employeeWithMinSalary.getName()
+                    + "-" + employeeWithMinSalary.getSalary());
+        }
     }
 
     public void findEmployeeWithMaxSalary() {
@@ -73,8 +74,10 @@ public class EmployeeBook {
                 employeeWithMaxSalary = employees[i];
             }
         }
-        System.out.println("Максимальня зарплата у " + employeeWithMaxSalary.getName()
-                + "-" + employeeWithMaxSalary.getSalary());
+        if (employeeWithMaxSalary != null) {
+            System.out.println("Максимальня зарплата у " + employeeWithMaxSalary.getName()
+                    + "-" + employeeWithMaxSalary.getSalary());
+        }
     }
 
     public void sumMiddleSalary() {
@@ -86,8 +89,10 @@ public class EmployeeBook {
                 sum += employees[i].getSalary();
             }
         }
-        System.out.println("Средняя сумма затрат на зарплаты: "
-                + (double) sum / countEmployeesInArray);
+        if (countEmployeesInArray != 0) {
+            System.out.println("Средняя сумма затрат на зарплаты: "
+                    + (double) sum / countEmployeesInArray);
+        }
     }
 
     public void showNameAllEmployees() {
@@ -118,8 +123,10 @@ public class EmployeeBook {
                 employeeWithMaxSalary = employees[i];
             }
         }
-        System.out.println("В отделе - " + department + " больше всех зарабатывает '"
-                + employeeWithMaxSalary.getName() + '\'' + "-" + maxSalary);
+        if (employeeWithMaxSalary != null) {
+            System.out.println("В отделе - " + department + " больше всех зарабатывает '"
+                    + employeeWithMaxSalary.getName() + '\'' + "-" + maxSalary);
+        }
     }
 
     public void findEmployeeWithMinSalaryInDepartment(int department) {
@@ -131,8 +138,10 @@ public class EmployeeBook {
                 minSalary = employees[i].getSalary();
             }
         }
-        System.out.println("В отделе - " + department + " меньше всех зарабатывает '"
-                + employeeWithMaxSalary.getName() + '\'' + "-" + minSalary);
+        if (employeeWithMaxSalary != null) {
+            System.out.println("В отделе - " + department + " меньше всех зарабатывает '"
+                    + employeeWithMaxSalary.getName() + '\'' + "-" + minSalary);
+        }
     }
 
     public void sumMiddleSalaryInDepartment(int department) {
@@ -144,8 +153,10 @@ public class EmployeeBook {
                 sum += employees[i].getSalary();
             }
         }
-        System.out.println("Средняя сумма затрат на зарплаты в отделе-" + department
-                + "-" + (double) sum / countEmployeesInDepartment);
+        if (countEmployeesInDepartment != 0) {
+            System.out.println("Средняя сумма затрат на зарплаты в отделе-" + department
+                    + "-" + (double) sum / countEmployeesInDepartment);
+        }
     }
 
     public void increaseSalaryInDepartment(int department, double valuePercent) {
@@ -192,19 +203,24 @@ public class EmployeeBook {
     public Employee findEmployeeByName(String name) {
         Employee employee = null;
         for (int i = 0; i < employees.length; i++) {
-            if (employees[i].getName().equals(name)) {
+            if (employees[i] != null && employees[i].getName().equals(name)) {
                 employee = employees[i];
+                break;
             }
         }
         return employee;
     }
 
     public void changeSalary (String name, double newSalary) {
-        findEmployeeByName(name).setSalary(newSalary);
+        if (findEmployeeByName(name) != null) {
+            findEmployeeByName(name).setSalary(newSalary);
+        }
     }
 
     public void moveEmployeeToAnotherDepartment(String name, int department) {
-        findEmployeeByName(name).setDepartment(department);
+        if (findEmployeeByName(name) != null) {
+            findEmployeeByName(name).setDepartment(department);
+        }
     }
 
     public void showDepartmentsWithEmployees() {
